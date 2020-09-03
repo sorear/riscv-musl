@@ -8,7 +8,6 @@
 
 static int __setrlimit(int resource, const struct rlimit *rlim)
 {
-	unsigned long k_rlim[2];
 	struct rlimit tmp;
 	if (SYSCALL_RLIM_INFINITY != RLIM_INFINITY) {
 		tmp = *rlim;
@@ -17,10 +16,15 @@ static int __setrlimit(int resource, const struct rlimit *rlim)
 		rlim = &tmp;
 	}
 	int ret = __syscall(SYS_prlimit64, 0, resource, rlim, 0);
+#ifdef SYS_setrlimit
+	unsigned long k_rlim[2];
 	if (ret != -ENOSYS) return ret;
 	k_rlim[0] = MIN(rlim->rlim_cur, MIN(-1UL, SYSCALL_RLIM_INFINITY));
 	k_rlim[1] = MIN(rlim->rlim_max, MIN(-1UL, SYSCALL_RLIM_INFINITY));
 	return __syscall(SYS_setrlimit, resource, k_rlim);
+#else
+	return ret;
+#endif
 }
 
 struct ctx {
