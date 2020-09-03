@@ -201,6 +201,7 @@ static inline long __alt_socketcall(int sys, int sock, int cp, long a, long b, l
 #define SYS_sendfile SYS_sendfile64
 #endif
 
+#ifdef SYS_timer_settime32
 #ifndef SYS_timer_settime
 #define SYS_timer_settime SYS_timer_settime32
 #endif
@@ -239,6 +240,7 @@ static inline long __alt_socketcall(int sys, int sock, int cp, long a, long b, l
 
 #ifndef SYS_settimeofday
 #define SYS_settimeofday SYS_settimeofday_time32
+#endif
 #endif
 
 /* Ensure that the plain syscall names are defined even for "time64-only"
