@@ -4,6 +4,7 @@
 #include <string.h>
 #include <errno.h>
 #include "syscall.h"
+#include "wait4_waitid.h"
 
 pid_t wait4(pid_t pid, int *status, int options, struct rusage *ru)
 {
@@ -26,7 +27,11 @@ pid_t wait4(pid_t pid, int *status, int options, struct rusage *ru)
 	}
 #endif
 	char *dest = ru ? (char *)&ru->ru_maxrss - 4*sizeof(long) : 0;
+#ifdef SYS_wait4
 	r = __syscall(SYS_wait4, pid, status, options, dest);
+#else
+	r = __wait4_waitid(pid, status, options, dest, 0);
+#endif
 	if (r>0 && ru && sizeof(time_t) > sizeof(long)) {
 		long kru[4];
 		memcpy(kru, dest, 4*sizeof(long));
