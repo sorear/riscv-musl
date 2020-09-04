@@ -1,8 +1,7 @@
 #include <sys/wait.h>
 #include "syscall.h"
-#include "wait4_waitid.h"
 
-hidden pid_t __wait4_waitid(pid_t pid, int *status, int options, void *kru, int cp)
+hidden pid_t __wait4(pid_t pid, int *status, int options, void *kru, int cp)
 {
 	idtype_t t;
 	int r;
