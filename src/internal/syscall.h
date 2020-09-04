@@ -404,7 +404,7 @@ static inline pid_t __wait4(pid_t pid, int *status, int options, void *kru, int 
 	else return __syscall(SYS_wait4, pid, status, options, kru);
 }
 #else
-hidden pid_t __wait4(pid_t pid, int *status, int options, void *kru, int cp)
+hidden pid_t __wait4(pid_t pid, int *status, int options, void *kru, int cp);
 #endif
 
 #endif
