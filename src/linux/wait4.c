@@ -4,7 +4,6 @@
 #include <string.h>
 #include <errno.h>
 #include "syscall.h"
-#include "wait4_waitid.h"
 
 pid_t wait4(pid_t pid, int *status, int options, struct rusage *ru)
 {
