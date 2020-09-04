@@ -42,7 +42,9 @@ hidden pid_t __wait4_waitid(pid_t pid, int *status, int options, void *kru, int 
 			break;
 		case CLD_STOPPED:
 		case CLD_TRAPPED:
-			sw = ((info.si_status&0xff) << 8) + 0x7f;
+			/* see ptrace(2); the high bits of si_status can contain */
+			/* PTRACE_EVENT_ values which must be preserved */
+			sw = (info.si_status << 8) + 0x7f;
 			break;
 		}
 		*status = sw;
