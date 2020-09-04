@@ -3,5 +3,5 @@
 
 pid_t waitpid(pid_t pid, int *status, int options)
 {
-	return __wait4(SYS_wait4, pid, status, options, 0, 1);
+	return __wait4(pid, status, options, 0, 1);
 }
